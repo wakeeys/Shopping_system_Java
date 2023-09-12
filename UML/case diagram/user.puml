@@ -1,0 +1,55 @@
+@startuml
+
+left to right direction
+actor "user" as user
+package shopping_system {
+  usecase "登录" as log_in
+  usecase "注册" as register
+  usecase "密码管理" as password_management
+  usecase "购物" as shopping
+  usecase "退出登录" as log_out
+  usecase "修改自身密码" as password_changing
+  usecase "查看热门商品" as viewHotProducts
+  usecase "重置自身密码" as passwordSelfReset
+  usecase "将商品加入购物车" as addToCart
+  usecase "从购物车中移除商品" as removeFromCart
+  usecase "修改购物车中的商品" as modifyInCart
+  usecase "模拟结账" as mock_closing
+  usecase "查看购物车历史" as viewShoppingHistory
+  rectangle database{
+        usecase "商品表的查询" as commodity_see
+        usecase "商品表的存取" as commodity_save
+        usecase "用户表的存取" as users_save
+        usecase "用户表的查询" as users_see
+  }
+}
+
+user--> register
+user--> log_in
+
+log_in--> password_management
+log_in--> log_out
+log_in--> shopping
+
+password_management--> password_changing
+password_management--> passwordSelfReset
+
+shopping--> addToCart
+shopping--> removeFromCart
+shopping--> modifyInCart
+shopping--> mock_closing
+shopping--> viewShoppingHistory
+shopping--> viewHotProducts
+
+register--> users_save
+
+log_in--> users_see
+
+password_changing--> users_save
+passwordSelfReset--> users_save
+
+addToCart--> commodity_see
+viewHotProducts--> commodity_see
+mock_closing--> commodity_save
+
+@enduml

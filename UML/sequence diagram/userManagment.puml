@@ -1,0 +1,33 @@
+@startuml
+actor       admin  as person
+boundary    "客户管理界面" as userboundary
+control     "客户管理控制器" as  usercontrol
+database    "用户表"    as userdata
+
+person -> userboundary : 打开客户管理界面
+group 列出所有客户信息
+    person -> usercontrol : 申请列出所有客户信息
+    usercontrol -> userdata : 获取所有的客户信息
+    userdata --> userboundary :显示所有客户信息
+end
+group 删除客户信息
+    person -> usercontrol : 申请删除客户信息
+    usercontrol --> userboundary : 给出警告提示
+    person -> usercontrol: 确认删除
+    usercontrol -> userdata : 用户名是否存在
+    group 删除成功
+        userdata --> usercontrol : 用户名存在
+        usercontrol --> userboundary :删除成功
+    end
+    group 删除失败
+        userdata --> usercontrol : 用户名不存在
+        usercontrol --> userboundary :删除失败
+    end
+end
+group 查询客户信息
+    person -> usercontrol : 申请查询客户信息
+    person -> usercontrol : 输入用户名或ID
+    usercontrol -> userdata : 通过输入信息查询用户
+    userdata --> userboundary :显示用户信息
+end
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+actor       admin_user  as person
+boundary    "登录界面"   as inboundary
+control     "登录控制器" as incontrol
+database    "用户表"    as userdata
+
+person -> inboundary : 登录购物系统
+person -> incontrol : 输入账号密码
+incontrol -> userdata : 查询账号密码是否存在、匹配
+group 登录成功
+    userdata --> incontrol : 账号密码匹配
+    incontrol --> inboundary :登录成功
+end
+group 登录失败
+    userdata --> incontrol : 账号密码不匹配
+    incontrol --> inboundary :登录失败
+end
+@enduml

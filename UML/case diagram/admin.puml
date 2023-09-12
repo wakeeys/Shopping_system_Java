@@ -1,0 +1,64 @@
+@startuml
+
+left to right direction
+actor "admin" as admin
+package shopping_system {
+  usecase "登录" as log_in
+  usecase "密码管理" as password_management
+  usecase "客户管理" as customer_management
+  usecase "商品管理" as commodity_management
+  usecase "退出登录" as log_out
+  usecase "修改自身密码" as password_changing
+  usecase "重置客户密码" as passwordUsersReset
+  usecase "列出所有客户信息" as allCustomerInformation
+  usecase "删除客户信息" as deleteCustomerInformation
+  usecase "查询客户信息" as QueryCustomerInformation
+  usecase "列出所有商品信息" as allProductInformation
+  usecase "添加商品信息" as addProductInformation
+  usecase "修改商品信息" as modifyProductInformation
+  usecase "删除商品" as delete_product
+  usecase "查询商品信息" as queryProductInformation
+  usecase "查看热门商品" as viewHotProducts
+  rectangle database{
+        usecase "商品表的查询" as commodity_see
+        usecase "商品表的存取" as commodity_save
+        usecase "用户表的存取" as users_save
+        usecase "用户表的查询" as users_see
+  }
+}
+
+admin--> log_in
+log_in--> password_management
+log_in--> customer_management
+log_in--> commodity_management
+log_in--> log_out
+
+password_management--> password_changing
+password_management--> passwordUsersReset
+
+customer_management--> allCustomerInformation
+customer_management--> deleteCustomerInformation
+customer_management--> QueryCustomerInformation
+
+commodity_management--> allProductInformation
+commodity_management--> addProductInformation
+commodity_management--> modifyProductInformation
+commodity_management--> delete_product
+commodity_management--> queryProductInformation
+commodity_management--> viewHotProducts
+
+password_changing--> users_save
+passwordUsersReset--> users_save
+
+allCustomerInformation--> users_see
+deleteCustomerInformation--> users_save
+QueryCustomerInformation--> users_see
+
+allProductInformation--> commodity_see
+addProductInformation--> commodity_save
+modifyProductInformation--> commodity_save
+delete_product--> commodity_save
+queryProductInformation--> commodity_see
+viewHotProducts--> commodity_see
+
+@enduml

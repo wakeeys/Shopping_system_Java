@@ -1,0 +1,43 @@
+@startuml
+actor       admin  as person
+boundary    "商品管理界面" as commodityboundary
+control     "商品管理控制器" as commoditycontrol
+database    "商品表"    as commoditydata
+
+person -> commodityboundary : 浏览商品管理页面
+group 列出所有商品信息
+    person -> commoditycontrol : 申请列出所有商品信息
+    commoditycontrol -> commoditydata : 获取所有的商品信息
+    commoditydata --> commodityboundary :显示所有商品信息
+end
+group 添加商品信息
+    person -> commoditycontrol : 申请添加商品信息
+    person -> commoditycontrol : 输入添加的商品信息
+    commoditycontrol -> commoditydata : 将商品信息加到数据库中
+end
+group 修改商品信息
+    person -> commoditycontrol : 申请修改商品信息
+    person -> commoditycontrol : 输入修改的商品信息
+    commoditycontrol -> commoditydata : 对数据库中相应的商品信息修改
+end
+group 删除商品信息
+    person -> commoditycontrol : 申请删除商品信息
+    commoditycontrol --> commodityboundary : 给出警告提示
+    person -> commoditycontrol: 确认删除
+    commoditycontrol -> commoditydata : 商品是否存在
+    group 删除成功
+        commoditydata --> commoditycontrol : 商品存在
+        commoditycontrol --> commodityboundary :删除成功
+    end
+    group 删除失败
+        commoditydata --> commoditycontrol : 商品不存在
+        commoditycontrol --> commodityboundary :删除失败
+    end
+end
+group 查询商品信息
+    person -> commoditycontrol : 申请查询商品信息
+    person -> commoditycontrol : 输入商品名或编号
+    commoditycontrol -> commoditydata : 通过输入信息查询商品
+    commoditydata --> commodityboundary :显示商品信息
+end
+@enduml

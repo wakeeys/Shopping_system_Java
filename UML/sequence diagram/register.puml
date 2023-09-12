@@ -1,0 +1,17 @@
+@startuml
+actor       admin_user  as person
+boundary    "注册界面"   as registerboundary
+control     "注册控制器" as registercontrol
+database    "用户表"    as userdata
+
+person -> registerboundary : 打开系统注册界面
+person -> registercontrol : 输入用户名和密码
+registercontrol --> registercontrol : 验证用户名和密码是否符合要求
+group 验证成功
+    registercontrol -> userdata : 存入用户名和密码
+    registercontrol --> registerboundary :创建用户成功
+end
+group 验证失败
+    registercontrol --> registerboundary : 验证失败，请重新输入
+end
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+actor       user  as person
+boundary    "购物车界面" as commodityboundary
+control     "购物车控制器" as commoditycontrol
+boundary    "购物历史记录界面" as historyboundary
+control     "购物历史记录控制器" as historycontrol
+boundary    "支付界面" as payboundary
+control     "支付控制器" as paycontrol
+database    "商品表"    as commoditydata
+
+person -> commodityboundary : 浏览商品
+group 将商品加入购物车
+    person -> commoditycontrol : 输入商品编号
+    commoditycontrol --> commoditycontrol :将商品加入购物车
+end
+group 从购物车中移除商品
+    person -> commoditycontrol : 申请移除购物车中某个商品
+    commoditycontrol --> commodityboundary : 移除警告提示
+    person -> commoditycontrol : 确认移除
+    commoditycontrol --> commoditycontrol :移除商品
+end
+group 修改购物车中商品数量
+    person -> commoditycontrol : 申请修改商品数量
+    person -> commoditycontrol : 输入修改的商品数量并修改
+end
+group 模拟结账
+    person -> commoditycontrol : 申请结账
+    person -> payboundary : 选择支付方式
+    person -> paycontrol: 发起支付请求
+    paycontrol --> paycontrol : 处理支付
+    paycontrol --> payboundary :显示支付结果
+    paycontrol -> commoditydata :修改商品数量
+end
+group 查看购物历史
+    person -> historycontrol : 申请查看购物历史记录
+    historycontrol --> historyboundary :显示购物历史记录
+end
+@enduml
